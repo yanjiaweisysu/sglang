@@ -60,10 +60,13 @@ _OWNER_SITES = {
     (*_MIXIN, "evict"): 1,
     (*_MIXIN, "kv_committed_len"): 1,
     (*_MIXIN, "kv_allocated_len"): 1,
-    # 3rd resolve mutation: DFLASH settles its full commit_lens here (no
-    # pre-claim in prepare_for_decode, unlike the EAGLE mixin).
-    (*_RESOLVE, "kv_committed_len"): 3,
+    (*_RESOLVE, "kv_committed_len"): 2,
     (*_RESOLVE, "spec_verify_ct"): 1,
+    (
+        "speculative/dflash_info_v2.py",
+        "DFlashDraftInputV2.prepare_for_decode",
+        "kv_committed_len",
+    ): 1,
     (
         "speculative/dflash_info_v2.py",
         "DFlashDraftInputV2.prepare_for_decode",

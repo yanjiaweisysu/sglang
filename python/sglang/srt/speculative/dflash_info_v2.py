@@ -204,6 +204,13 @@ class DFlashDraftInputV2(SpecInput):
             elif uniform_top_k and top_k != uniform_top_k_value:
                 uniform_top_k = False
 
+            # Pre-claim the current token's slot (like the EAGLE mixin and
+            # normal decode); resolve settles with accept_lens - 1. Safe for
+            # the lagging committed view below: every DFLASH verify step
+            # commits at least the current token, so committed_len + 1 never
+            # exceeds the true committed prefix.
+            req.kv_committed_len += 1
+
         self.max_top_k = max(max_top_k, 1)
         self.uniform_top_k_value = uniform_top_k_value if uniform_top_k else None
 
